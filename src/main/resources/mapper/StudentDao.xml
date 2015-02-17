@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sao.mybatis.dao.StudentDao">
+
+    <resultMap id="studentResultMap" type="com.sao.mybatis.entity.Student">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="age" property="age" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="studentColumns">
+        id, name, age
+    </sql>
+
+    <select id="selectAllStudent" resultMap="studentResultMap">
+        select <include refid="studentColumns"/> from student2
+    </select>
+
+    <insert id="insertStudent" parameterType="com.sao.mybatis.entity.Student" useGeneratedKeys="true" keyProperty="id">
+        insert into student(name, age)
+          values(#{name}, #{age})
+    </insert>
+
+    <insert id="insertStudent2" parameterType="com.sao.mybatis.entity.Student">
+      <selectKey keyProperty="id" resultType="int" order="BEFORE">
+          select ifnull(max(s2.id), 0) + 1 id from student2 s2
+      </selectKey>
+        insert into student2(id, name, age)
+        values(#{id}, #{name}, #{age})
+    </insert>
+</mapper>

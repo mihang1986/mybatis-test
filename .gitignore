@@ -1,0 +1,11 @@
+#  Global #
+*.class
+*.jar
+*.war
+*.ear
+
+# mybatis-test [eclipse / intellij] #
+.project
+.settings
+.classpath
+target
